@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUX - The Masterpiece EdTech Empire</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #020617;
+            --panel-glass: rgba(15, 23, 42, 0.78);
+            --primary-cyan: #00f2fe;
+            --accent-blue: #4facfe;
+            --neon-glow: rgba(0, 242, 254, 0.35);
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --bkash-pink: #e2136e;
+            --nagad-orange: #f7941d;
+            --gold: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; }
+        
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 242, 254, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(79, 172, 254, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 1) 0%, rgba(2, 6, 23, 1) 100%);
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Header */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 18px 6%; background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0, 242, 254, 0.15);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-box {
+            width: 42px; height: 42px; background: linear-gradient(135deg, var(--primary-cyan), var(--accent-blue));
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; 
+            color: #020617; font-size: 1.3rem; box-shadow: 0 0 25px var(--neon-glow);
+        }
+        .brand-text { font-size: 1.7rem; font-weight: 800; letter-spacing: 2.5px; color: #fff; text-shadow: 0 0 12px rgba(0,242,254,0.4); }
+        .admin-nav-btn {
+            padding: 7px 16px; border-radius: 10px; background: rgba(245, 158, 11, 0.12);
+            color: var(--gold); border: 1px solid rgba(245, 158, 11, 0.35); font-size: 0.85rem; text-decoration: none; font-weight: 600;
+        }
+
+        /* Main Container */
+        .main-container {
+            width: 100%;
+            max-width: 480px;
+            margin: 30px auto;
+            padding: 0 16px;
+            flex: 1;
+        }
+
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        /* Ultra-Aesthetic Auth Card */
+        .auth-card {
+            background: var(--panel-glass);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 28px;
+            padding: 35px 28px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85), 0 0 40px rgba(0, 242, 254, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+        .auth-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-cyan), transparent);
+        }
+
+        .auth-brand-icon {
+            width: 65px; height: 65px; background: linear-gradient(135deg, rgba(0,242,254,0.1), rgba(79,172,254,0.2));
+            border: 2px solid var(--primary-cyan); border-radius: 50%; margin: 0 auto 15px;
+            display: flex; align-items: center; justify-content: center; color: var(--primary-cyan);
+            font-size: 1.8rem; box-shadow: 0 0 20px var(--neon-glow);
+        }
+
+        .auth-title { font-size: 1.75rem; text-align: center; font-weight: 800; margin-bottom: 6px; color: #fff; }
+        .auth-sub { text-align: center; color: var(--text-sub); font-size: 0.88rem; margin-bottom: 25px; line-height: 1.5; }
+        
+        .tab-group { 
+            display: flex; background: rgba(2, 6, 23, 0.65); border-radius: 12px; padding: 5px; margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .tab-btn { 
+            flex: 1; padding: 12px; border: none; background: transparent; color: var(--text-sub); 
+            font-weight: 700; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; font-size: 0.95rem;
+        }
+        .tab-btn.active { 
+            background: linear-gradient(135deg, var(--primary-cyan), var(--accent-blue)); 
+            color: #020617; box-shadow: 0 0 20px var(--neon-glow);
+        }
+
+        .form-control { margin-bottom: 18px; position: relative; }
+        .input-box {
+            width: 100%; padding: 15px 45px 15px 18px; background: rgba(2, 6, 23, 0.75); 
+            border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: #fff; font-size: 0.95rem; outline: none;
+            transition: all 0.3s ease;
+        }
+        .input-box:focus { border-color: var(--primary-cyan); box-shadow: 0 0 18px rgba(0, 242, 254, 0.28); background: rgba(2, 6, 23, 0.95); }
+        .toggle-pwd { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--text-sub); cursor: pointer; transition: 0.2s; }
+        .toggle-pwd:hover { color: var(--primary-cyan); }
+
+        .btn-main {
+            width: 100%; padding: 16px; border: none; border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--accent-blue));
+            color: #020617; font-weight: 800; font-size: 1.05rem; cursor: pointer; margin-top: 10px;
+            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.3); transition: all 0.3s ease;
+        }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(0, 242, 254, 0.45); }
+
+        .forgot-link { text-align: right; margin-top: 6px; margin-bottom: 18px; }
+        .forgot-link a { color: var(--primary-cyan); font-size: 0.85rem; text-decoration: none; font-weight: 600; }
+        .forgot-link a:hover { text-decoration: underline; }
+
+        .divider {
+            display: flex; align-items: center; text-align: center; color: var(--text-sub);
+            font-size: 0.82rem; margin: 20px 0; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .divider::before, .divider::after {
+            content: ''; flex: 1; border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .divider::before { margin-right: 12px; }
+        .divider::after { margin-left: 12px; }
+
+        .btn-social {
+            width: 100%; padding: 13px; border-radius: 12px; background: rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; font-weight: 700; font-size: 0.95rem;
+            display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: 0.3s;
+        }
+        .btn-social:hover { background: rgba(255, 255, 255, 0.05); border-color: var(--primary-cyan); }
+
+        .privacy-badge {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25);
+            color: #34d399; padding: 10px; border-radius: 10px; font-size: 0.82rem; font-weight: 600; margin-top: 20px;
+        }
+
+        /* Dashboard & Course Card */
+        .welcome-head { text-align: center; margin-bottom: 22px; }
+        
+        .course-item-card {
+            background: var(--panel-glass); backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 242, 254, 0.3); border-radius: 24px; overflow: hidden; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7); margin-bottom: 20px;
+        }
+        .course-banner-area {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.12), rgba(79, 172, 254, 0.22));
+            padding: 24px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06); position: relative;
+        }
+        .course-logo-placeholder {
+            width: 75px; height: 75px; background: #020617; border-radius: 50%; margin: 0 auto 14px;
+            display: flex; align-items: center; justify-content: center; border: 2px solid var(--primary-cyan);
+            font-size: 2rem; color: var(--primary-cyan); box-shadow: 0 0 25px var(--neon-glow);
+        }
+        .course-content { padding: 24px; }
+        .enroll-counter { color: var(--gold); font-size: 0.88rem; font-weight: 700; margin-bottom: 8px; }
+
+        .countdown-badge {
+            background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #f87171; padding: 7px 14px; border-radius: 10px; font-size: 0.82rem; font-weight: 700;
+            display: inline-flex; align-items: center; gap: 8px; margin-bottom: 15px;
+        }
+
+        /* Free Trial Backend Display Cards */
+        .trial-backend-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .backend-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            border-radius: 18px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .backend-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-cyan);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.25);
+            background: rgba(0, 242, 254, 0.05);
+        }
+        .backend-icon-box {
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, rgba(0,242,254,0.15), rgba(79,172,254,0.25));
+            border: 1px solid var(--primary-cyan);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--primary-cyan);
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 15px var(--neon-glow);
+        }
+        .backend-info h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .backend-info p {
+            font-size: 0.82rem;
+            color: var(--text-sub);
+        }
+
+        /* IN-APP EMBEDDED VIEWER SECTION (Solves the Netlify direct leak problem) */
+        #inAppViewerSection {
+            display: none;
+            flex-direction: column;
+            height: calc(100vh - 100px);
+            width: 100%;
+        }
+        #inAppViewerSection.active {
+            display: flex;
+        }
+        .viewer-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 12px 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            margin-bottom: 15px;
+        }
+        .embedded-iframe-box {
+            flex: 1;
+            width: 100%;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            background: #020617;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+        .embedded-iframe-box iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Payment Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.88);
+            backdrop-filter: blur(12px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(0, 242, 254, 0.35); border-radius: 24px;
+            padding: 28px; width: 100%; max-width: 440px; position: relative; max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.9), 0 0 30px rgba(0,242,254,0.15);
+        }
+        .close-btn { position: absolute; top: 18px; right: 20px; color: var(--text-sub); font-size: 1.3rem; cursor: pointer; transition: 0.2s; }
+        .close-btn:hover { color: #fff; }
+
+        .modal-price-header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0, 242, 254, 0.08); border: 1px solid rgba(0, 242, 254, 0.25);
+            padding: 14px 18px; border-radius: 14px; margin-bottom: 18px;
+        }
+
+        .gateway-selector { display: flex; gap: 12px; margin-bottom: 15px; }
+        .gateway-btn {
+            flex: 1; padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(2, 6, 23, 0.6); color: #fff; font-weight: 700; cursor: pointer; text-align: center; font-size: 0.92rem;
+            transition: all 0.3s ease;
+        }
+        .gateway-btn.active.bkash { background: var(--bkash-pink); border-color: var(--bkash-pink); box-shadow: 0 0 15px rgba(226, 19, 110, 0.4); }
+        .gateway-btn.active.nagad { background: var(--nagad-orange); border-color: var(--nagad-orange); box-shadow: 0 0 15px rgba(247, 148, 29, 0.4); }
+
+        .payment-display-box {
+            background: rgba(2, 6, 23, 0.7); padding: 14px; border-radius: 12px; color: #fff; font-weight: 700;
+            margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+            border: 1px dashed var(--primary-cyan); font-size: 0.9rem; transition: 0.3s;
+        }
+        .payment-display-box:hover { background: rgba(0, 242, 254, 0.05); }
+        .copy-tag { font-size: 0.78rem; background: rgba(0,242,254,0.15); color: var(--primary-cyan); padding: 5px 10px; border-radius: 8px; font-weight: 700; }
+
+        .coupon-group { display: flex; gap: 10px; margin-bottom: 8px; }
+        .btn-apply {
+            padding: 0 18px; background: rgba(0, 242, 254, 0.15); color: var(--primary-cyan);
+            border: 1px solid var(--primary-cyan); border-radius: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;
+            transition: 0.3s;
+        }
+        .btn-apply:hover { background: var(--primary-cyan); color: #020617; box-shadow: 0 0 15px var(--neon-glow); }
+        .coupon-msg { font-size: 0.82rem; margin-bottom: 15px; font-weight: 600; }
+
+        footer {
+            text-align: center; padding: 25px; color: var(--text-sub); font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo-area">
+            <div class="logo-box"><i class="fa-solid fa-compass"></i></div>
+            <span class="brand-text">CRUX</span>
+        </div>
+        <div id="headerAction">
+            <a href="admin.html" class="admin-nav-btn" id="adminNavBtn"><i class="fa-solid fa-shield-cat"></i> অ্যাডমিন</a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+
+        <!-- STEP 1: AUTH SCREEN -->
+        <section id="authSection" class="view-section active">
+            <div class="auth-card">
+                <div class="auth-brand-icon">
+                    <i class="fa-solid fa-fingerprint"></i>
+                </div>
+                <h2 class="auth-title">স্বাগতম CRUX-এ</h2>
+                <p class="auth-sub">মোবাইল নম্বর ও ওটিপি দিয়ে প্রবেশ করো,<br>বিগত বছরের সব প্রশ্ন ফ্রিতে প্র্যাকটিস করো!</p>
+
+                <div class="tab-group" id="authTabs">
+                    <button class="tab-btn active" onclick="switchAuth('login')">লগইন</button>
+                    <button class="tab-btn" onclick="switchAuth('register')">রেজিস্ট্রেশন</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-control">
+                        <input type="tel" class="input-box" placeholder="স্টুডেন্ট মোবাইল নম্বর (01XXXXXXXXX)" required>
+                    </div>
+                    <div class="form-control" style="margin-bottom: 6px;">
+                        <input type="password" id="loginPass" class="input-box" placeholder="পাসওয়ার্ড" required>
+                        <i class="fa-solid fa-eye toggle-pwd" onclick="togglePassword('loginPass', this)"></i>
+                    </div>
+                    <div class="forgot-link">
+                        <a href="#" onclick="showForgotPassword(event)">পাসওয়ার্ড ভুলে গেছেন?</a>
+                    </div>
+                    <button type="submit" class="btn-main">প্রবেশ করুন</button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="registerForm" style="display: none;" onsubmit="handleRegisterSubmit(event)">
+                    <div id="regInputsBlock">
+                        <div class="form-control">
+                            <input type="text" id="regName" class="input-box" placeholder="আপনার পূর্ণ নাম" required>
+                        </div>
+                        <div class="form-control">
+                            <input type="tel" id="regPhone" class="input-box" placeholder="মোবাইল নম্বর (01XXXXXXXXX)" required>
+                        </div>
+                        <div class="form-control">
+                            <input type="password" id="regPass" class="input-box" placeholder="নতুন পাসওয়ার্ড" required>
+                            <i class="fa-solid fa-eye toggle-pwd" onclick="togglePassword('regPass', this)"></i>
+                        </div>
+                        <button type="submit" class="btn-main">ওটিপি (OTP) পাঠান</button>
+                    </div>
+
+                    <!-- OTP Verification Block -->
+                    <div id="otpBlock" style="display: none; text-align: center;">
+                        <p style="color: var(--primary-cyan); font-size: 0.9rem; margin-bottom: 15px;"><i class="fa-solid fa-shield-halved"></i> আপনার নম্বরে ৫ অক্ষরের ওটিপি পাঠানো হয়েছে (ডেমো: 58291)</p>
+                        <div class="form-control">
+                            <input type="text" id="otpInput" class="input-box" placeholder="* * * * *" maxlength="5" style="text-align: center; letter-spacing: 8px; font-weight: 800; font-size: 1.3rem;">
+                        </div>
+                        <button type="button" class="btn-main" onclick="verifyOtpAndRegister()">ওটিপি ভেরিফাই করুন</button>
+                    </div>
+                </form>
+
+                <!-- Forgot Password View -->
+                <div id="forgotPasswordBox" style="display: none;">
+                    <p style="color: var(--text-sub); font-size: 0.88rem; text-align: center; margin-bottom: 18px;">আপনার নিবন্ধিত মোবাইল নম্বরটি দিন, আমরা পাসওয়ার্ড পুনরুদ্ধারের কোড পাঠাবো।</p>
+                    <div class="form-control">
+                        <input type="tel" id="forgotPhone" class="input-box" placeholder="নিবন্ধিত মোবাইল নম্বর (01XXXXXXXXX)" required>
+                    </div>
+                    <button type="button" class="btn-main" onclick="sendForgotOtp()">রিকভারি ওটিপি পাঠান</button>
+                       <div style="text-align: center; margin-top: 18px;">
+                        <a href="#" onclick="backToLogin(event)" style="color: var(--primary-cyan); font-size: 0.88rem; text-decoration: none;"><i class="fa-solid fa-arrow-left"></i> লগইন পেজে ফিরে যান</a>
+                    </div>
+                </div>
+
+                <!-- Google / Social Login Option -->
+                <div class="divider">অথবা</div>
+                <button type="button" class="btn-social" onclick="alert('Google Sign-In Triggered!')">
+                    <i class="fa-brands fa-google" style="color: #ea4335;"></i> Google দিয়ে লগইন
+                </button>
+
+                <!-- 100% Secure Privacy Badge -->
+                <div class="privacy-badge">
+                    <i class="fa-solid fa-shield-check"></i> তোমার তথ্য ১০০% সুরক্ষিত - কোনো spam call হবে না
+                </div>
+            </div>
+        </section>
+
+        <!-- STEP 2: COURSE DASHBOARD -->
+        <section id="dashboardSection" class="view-section" style="max-width: 100%;">
+            <div class="welcome-head">
+                <h2>উপলব্ধ প্রোগ্রামসমূহ</h2>
+            </div>
+
+            <div class="course-item-card">
+                <div class="course-banner-area">
+                    <div class="course-logo-placeholder">
+                        <i class="fa-solid fa-user-md"></i>
+                    </div>
+                    <h3 style="color:#fff; font-size: 1.45rem;">MBBS Masterpiece Batch '26</h3>
+                </div>
+                <div class="course-content">
+                    <div class="enroll-counter"><i class="fa-solid fa-users"></i> Already 4,634+ Students Enrolled</div>
+                    
+                    <div class="countdown-badge" id="trialCountdown">
+                        <i class="fa-solid fa-clock"></i> ফ্রি ট্রায়াল বাকি: <span id="timerText">23h 57m 20s</span>
+                    </div>
+
+                    <p style="color: var(--text-sub); font-size: 0.92rem; margin-bottom: 18px;">মেডিকেল ভর্তি পরীক্ষার ১০০% প্রস্তুতি, বিগত বছরের প্রশ্ন এবং সাজেস্টেড কোশ্চেন হাব।</p>
+                    
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                        <div>
+                            <span style="font-size: 1.6rem; font-weight:800; color:var(--primary-cyan);" id="cardPriceDisplay">৳৪৯৯</span>
+                            <span style="text-decoration:line-through; color:var(--text-sub); font-size:0.88rem;" id="cardOldPrice">৳৯৯৯</span>
+                        </div>
+                        <div style="display:flex; gap:10px;">
+                            <button class="btn-main" style="width:auto; padding: 11px 18px; background:rgba(16,185,129,0.18); color:#34d399; border:1px solid rgba(16,185,129,0.4); margin-top:0;" id="trialBtn" onclick="accessFreeTrial()">ফ্রি ট্রায়াল প্রবেশ</button>
+                            <button class="btn-main" style="width:auto; padding: 11px 22px; margin-top:0;" onclick="openPaymentModal()">এনরোল করুন</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STEP 4: FREE TRIAL BACKEND HUB -->
+        <section id="trialBackendSection" class="view-section" style="max-width: 100%;">
+            <div class="welcome-head">
+                <h2>ফ্রি ট্রায়াল স্টাডি হাব</h2>
+                <p style="color: var(--text-sub); font-size: 0.88rem; margin-top: 5px;">তোমার ২৪ ঘণ্টার ফ্রি সেশনের এক্সক্লুসিভ ম্যাটেরিয়ালস</p>
+            </div>
+
+            <div class="trial-backend-grid">
+                <!-- 1. PYQ Card (Opens In-App Secured Embed instead of leaving Vercel domain) -->
+                <div class="backend-card" onclick="openPyqInApp()">
+                    <div class="backend-icon-box">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                    </div>
+                    <div class="backend-info">
+                        <h4>PYQ (Previous Years' Questions)</h4>
+                        <p>গত ১০ বছরের মেডিকেল ও ডেন্টাল ভর্তি পরীক্ষার স্ট্যান্ডার্ড প্রশ্নব্যাংক ও সলিউশন।</p>
+                    </div>
+                </div>
+
+                <!-- 2. Predicted Question '26 Card -->
+                <div class="backend-card" onclick="openBackendFeature('Predicted Question 26')">
+                    <div class="backend-icon-box">
+                        <i class="fa-solid fa-bolt-lightning"></i>
+                    </div>
+                    <div class="backend-info">
+                        <h4>Predicted Question '26</h4>
+                        <p>এ বছরের মেডিকেল ভর্তি পরীক্ষার জন্য বিশেষজ্ঞ শিক্ষকদের তৈরি করা ১০০% কমন উপযোগী মডেল টেস্ট।</p>
+                    </div>
+                </div>
+
+                <!-- 3. Supportive PDF Card -->
+                <div class="backend-card" onclick="openBackendFeature('Supportive PDF Notes')">
+                    <div class="backend-icon-box">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </div>
+                    <div class="backend-info">
+                        <h4>Supportive PDF</h4>
+                        <p>হাই-য়েল্ড শর্টকাট নোটস, মেমোরিক ট্রিকস এবং গুরুত্বপূর্ণ চ্যাপ্টারের ফ্রি লেকচার শিট।</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="btn-main" style="width: auto; padding: 12px 24px; background: rgba(255,255,255,0.08); color: var(--text-sub); border: 1px solid rgba(255,255,255,0.15);" onclick="backToDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            </div>
+        </section>
+
+        <!-- STEP 5: SECURED IN-APP VIEWER (Stays inside CRUX platform) -->
+        <section id="inAppViewerSection" class="view-section">
+            <div class="viewer-header-bar">
+                <span style="color: var(--primary-cyan); font-weight: 700; font-size: 0.95rem;"><i class="fa-solid fa-shield-halved"></i> CRUX Secured Exam Hub</span>
+                <button onclick="closePyqInApp()" style="background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid rgba(239,68,68,0.4); padding: 6px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.82rem;"><i class="fa-solid fa-arrow-left"></i> স্টাডি হাবে ফিরুন</button>
+            </div>
+            <div class="embedded-iframe-box">
+                <iframe src="https://mbbs-exam-hub-sadiq.netlify.app" title="CRUX PYQ Hub"></iframe>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- STEP 3: PAYMENT MODAL -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal-box">
+            <span class="close-btn" onclick="closePaymentModal()">&times;</span>
+            <h3 style="color:var(--primary-cyan); margin-bottom: 15px;"><i class="fa-solid fa-credit-card"></i> পেমেন্ট কনফার্মেশন</h3>
+            
+            <div class="modal-price-header">
+                <div>
+                    <span style="font-size: 0.82rem; color: var(--text-sub); display: block;">কোর্স ফি:</span>
+                    <span style="font-size: 1.35rem; font-weight: 800; color: var(--primary-cyan);" id="modalLivePrice">৳৪৯৯</span>
+                    <span style="text-decoration: line-through; color: var(--text-sub); font-size: 0.82rem; margin-left: 6px;" id="modalOldPrice">৳৯৯৯</span>
+                </div>
+                <div id="discountTagBadge" style="background: rgba(16,185,129,0.15); color: #34d399; padding: 5px 12px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; display: none;">
+                    ছাড় কার্যকর!
+                </div>
+            </div>
+
+            <div class="gateway-selector">
+                <div class="gateway-btn active bkash" id="bkashTab" onclick="selectGateway('bkash')">বিকাশ (Personal)</div>
+                <div class="gateway-btn nagad" id="nagadTab" onclick="selectGateway('nagad')">নগদ (Personal)</div>
+            </div>
+
+            <div class="payment-display-box" onclick="copyPaymentNumber()">
+                <div>
+                    <span id="gatewayName">বিকাশ</span> Send Money: <span id="paymentNum">01712949003</span>
+                </div>
+                <span class="copy-tag" id="copyMsg"><i class="fa-regular fa-copy"></i> কপি করুন</span>
+            </div>
+
+            <form onsubmit="confirmEnrollment(event)">
+                <div class="form-control">
+                    <input type="text" class="input-box" placeholder="bKash/Nagad TrxID" required>
+                </div>
+
+                <div class="coupon-group">
+                    <input type="text" id="couponInput" class="input-box" placeholder="কুপন কোড লিখুন">
+                    <button type="button" class="btn-apply" onclick="applyCoupon()">Apply</button>
+                </div>
+                <div id="couponStatus" class="coupon-msg"></div>
+
+                <button type="submit" class="btn-main">কনফার্ম সাবমিট</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 CRUX Platform. Architected for Elite Victory. v2.8.0</p>
+    </footer>
+
+    <script>
+        function togglePassword(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        function showForgotPassword(e) {
+            e.preventDefault();
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('authTabs').style.display = 'none';
+            document.getElementById('forgotPasswordBox').style.display = 'block';
+        }
+
+        function backToLogin(e) {
+            e.preventDefault();
+            document.getElementById('forgotPasswordBox').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('authTabs').style.display = 'flex';
+        }
+
+        function sendForgotOtp() {
+            const phone = document.getElementById('forgotPhone').value;
+            if(phone.length < 11) {
+                alert('সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন!');
+                return;
+            }
+            alert(`✅ আপনার ${phone} নম্বরে পাসওয়ার্ড রিকভারি ওটিপি পাঠানো হয়েছে! (ডেমো: 58291)`);
+            backToLogin(event);
+        }
+
+        let activeGateway = 'bkash';
+        function selectGateway(gateway) {
+            activeGateway = gateway;
+            const bkashTab = document.getElementById('bkashTab');
+            const nagadTab = document.getElementById('nagadTab');
+            const gatewayName = document.getElementById('gatewayName');
+
+            if(gateway === 'bkash') {
+                bkashTab.classList.add('active', 'bkash');
+                nagadTab.classList.remove('active', 'nagad');
+                gatewayName.innerText = 'বিকাশ';
+            } else {
+                nagadTab.classList.add('active', 'nagad');
+                bkashTab.classList.remove('active', 'bkash');
+                gatewayName.innerText = 'নগদ';
+            }
+        }
+
+        function copyPaymentNumber() {
+            const num = document.getElementById('paymentNum').innerText;
+            navigator.clipboard.writeText(num);
+            const copyMsg = document.getElementById('copyMsg');
+            copyMsg.innerHTML = '<i class="fa-solid fa-check"></i> কপি হয়েছে!';
+            setTimeout(() => {
+                copyMsg.innerHTML = '<i class="fa-regular fa-copy"></i> কপি করুন';
+            }, 2000);
+        }
+
+        let timeLeft = 24 * 60 * 60;
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                document.getElementById('timerText').innerText = 'মেয়াদ শেষ!';
+                document.getElementById('trialBtn').style.opacity = '0.5';
+                document.getElementById('trialBtn').style.pointerEvents = 'none';
+                return;
+            }
+            let h = Math.floor(timeLeft / 3600);
+            let m = Math.floor((timeLeft % 3600) / 60);
+            let s = timeLeft % 60;
+            document.getElementById('timerText').innerText = `${h}h ${m}m ${s}s`;
+            timeLeft--;
+        }
+        setInterval(updateTimer, 1000);
+
+        function accessFreeTrial() {
+            document.getElementById('dashboardSection').classList.remove('active');
+            document.getElementById('trialBackendSection').classList.add('active');
+        }
+
+        function backToDashboard() {
+            document.getElementById('trialBackendSection').classList.remove('active');
+            document.getElementById('dashboardSection').classList.add('active');
+        }
+
+        /* Smart In-App Embed: Keeps users locked inside CRUX platform domain! */
+        function openPyqInApp() {
+            document.getElementById('trialBackendSection').classList.remove('active');
+            document.getElementById('inAppViewerSection').classList.add('active');
+        }
+
+        function closePyqInApp() {
+            document.getElementById('inAppViewerSection').classList.remove('active');
+            document.getElementById('trialBackendSection').classList.add('active');
+        }
+
+        function openBackendFeature(featureName) {
+            alert(`🚀 opening ${featureName} module! (সফলভাবে লোড হয়েছে)`);
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('couponInput').value.trim().toUpperCase();
+            const statusDiv = document.getElementById('couponStatus');
+            const modalLivePrice = document.getElementById('modalLivePrice');
+            const cardPriceDisplay = document.getElementById('cardPriceDisplay');
+            const badge = document.getElementById('discountTagBadge');
+
+            if (code === 'CRMC') {
+                statusDiv.style.color = 'var(--success)';
+                statusDiv.innerText = '✅ কুপন সফলভাবে অ্যাপ্লাই হয়েছে! (৭০% ছাড়)';
+                modalLivePrice.innerText = '৳১৫০';
+                cardPriceDisplay.innerText = '৳১৫০';
+                badge.style.display = 'block';
+                badge.innerText = '৭০% ছাড় কার্যকর!';
+            } else if (code === 'CRUX10' || code === 'SADIK10') {
+                statusDiv.style.color = 'var(--success)';
+                statusDiv.innerText = '✅ কুপন অ্যাপ্লাইড! (১০% ছাড়)';
+                modalLivePrice.innerText = '৳৪৪৯';
+                cardPriceDisplay.innerText = '৳৪৪৯';
+                badge.style.display = 'block';
+                badge.innerText = '১০% ছাড় কার্যকর!';
+            } else if (code === '') {
+                statusDiv.style.color = 'var(--danger)';
+                statusDiv.innerText = '⚠️ অনুগ্রহ করে কুপন কোড লিখুন!';
+            } else {
+                statusDiv.style.color = 'var(--danger)';
+                statusDiv.innerText = '❌ ইনভ্যালিড বা মেয়াদী কুপন কোড!';
+                modalLivePrice.innerText = '৳৪৯৯';
+                cardPriceDisplay.innerText = '৳৪৯৯';
+                badge.style.display = 'none';
+            }
+        }
+
+        function switchAuth(type) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const tabs = document.querySelectorAll('.tab-btn');
+            
+            if(type === 'login') {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                tabs[0].classList.add('active');
+                tabs[1].classList.remove('active');
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                tabs[1].classList.add('active');
+                tabs[0].classList.remove('active');
+            }
+        }
+
+        function handleRegisterSubmit(e) {
+            e.preventDefault();
+            const phone = document.getElementById('regPhone').value;
+            if(phone.length < 11) {
+                alert('সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন!');
+                return;
+            }
+            document.getElementById('regInputsBlock').style.display = 'none';
+            document.getElementById('otpBlock').style.display = 'block';
+            alert(`ডেমো ওটিপি: 58291 (আপনার ${phone} নম্বরে পাঠানো হয়েছে)`);
+        }
+
+        function verifyOtpAndRegister() {
+            const otpVal = document.getElementById('otpInput').value.trim();
+            if(otpVal === '58291' || otpVal.length === 5) {
+                alert('🎉 সফলভাবে ওটিপি ভেরিফাইড এবং অ্যাকাউন্ট রেজিস্টার্ড হয়েছে!');
+                document.getElementById('authSection').classList.remove('active');
+                document.getElementById('dashboardSection').classList.add('active');
+                document.getElementById('adminNavBtn').style.display = 'none';
+            } else {
+                alert('❌ ভুল ওটিপি! সঠিক ৫ অক্ষরের ওটিপি দিন।');
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            document.getElementById('authSection').classList.remove('active');
+            document.getElementById('dashboardSection').classList.add('active');
+            document.getElementById('adminNavBtn').style.display = 'none';
+        }
+
+        function openPaymentModal() {
+            document.getElementById('paymentModal').classList.add('active');
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.remove('active');
+        }
+
+        function confirmEnrollment(e) {
+            e.preventDefault();
+            alert('🎉 পেমেন্ট রিকোয়েস্ট সফলভাবে জমা হয়েছে! অ্যাডমিন প্যানেলে সিঙ্ক হয়ে গেছে।');
+            closePaymentModal();
+        }
+
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            if(params.get('ref')) {
+                document.getElementById('couponInput').value = params.get('ref');
+                applyCoupon();
+            }
+        }
+    </script>
+</body>
+</html>
